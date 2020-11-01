@@ -1,0 +1,48 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import cross_val_predict, train_test_split
+from sklearn import datasets
+from sklearn import metrics
+
+%matplotlib inline
+mpl.rcParams['font.family'] = ['sans-serif']
+mpl.rcParams['font.sans-serif'] = ['SimHei']
+mpl.rcParams['axes.unicode_minus']=False
+
+data = pd.read_excel('MoistureData.xlsx')
+X = dataset.iloc[:,0:2].values
+y = dataset.loc[:,['X2']].values
+
+#划分训练集和测试集
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.5, random_state=1)
+#print(X_train.shape)
+#print(X_test.shape)
+
+#模型的训练
+lr = LinearRegression()
+lr.fit(X_train, y_train)
+#print(lr.coef_)
+#print(lr.intercept_)
+
+#模型的评估
+y_pred = lr.predict(X_test)
+MSE = metrics.mean_squared_error(y_test, y_pred)
+RMSE = np.sqrt(metrics.mean_squared_error(y_test, y_pred))
+#print('MSE:',MSE)
+#print('RMSE:',RMSE)
+
+plt.figure(figsize=(15,5))
+plt.plot(range(len(y_test)), y_test, 'r', label='测试数据')
+plt.plot(range(len(y_test)), y_pred, 'b', label='预测数据')
+plt.legend()
+
+fig = plt.figure()
+axes3d = Axes3D(fig)
+axes3d.scatter(c,a,b)
+
+plt.scatter(y_test, y_pred)
+plt.plot([y_test.min(),y_test.max()], [y_test.min(),y_test.max()], 'k--')
+plt.xlabel('真实值')
+plt.ylabel('预测值')
